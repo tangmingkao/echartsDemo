@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src = jquery-3.2.1.js></script>
+    <script src="echarts.js"></script>
+</head>
+<body>
+<div id="tmk1" style="width: 400px;height: 600px"></div>
+<script>
+    window.onload = function(){
+        var myChart = echarts.init($("#tmk1")[0]);
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: 'ECharts 入门示例'
+            },
+            legend:{
+                show: true,
+                bottom: '5%',
+                orient: 'horizontal',
+                data:['无抵押','有抵押','宝单保','万商贷','O2O','直销']
+
+            },
+            tooltip: {
+                show: true
+            },
+            series: [{
+                name: '业绩',
+                type: 'pie',
+                center: ['50%','50%'],
+                radius:['20%','70%'],
+                label:{
+                    normal: {
+                        show: true,
+                        position: 'inside',
+                        formatter: '{d}%'
+                    }
+
+                },
+                textStyle:{
+                    fontStyle: 'oblique',
+                    fontSize: '30'
+                },
+                data: [
+                    {
+                        value: 10,
+                        name:'无抵押',
+                        lable:{
+                            normal:{
+                                show: true,
+                                position: 'inner',
+                                formatter:'{d}',
+                                textStyle:{
+                                    color: '#fff',
+                                    fontSize: 12
+                                }
+                            },
+                            emphasis:{
+                                show: true,
+                                formatter:'{a} {d}%'
+                            }
+                        },
+                        lableLine:{
+                            normal: true
+
+                        },
+                        itemStyle:{
+                            color: 'rgb(128, 128, 128)'
+                        },
+                        tooltip:{
+                            position: 'inside'
+                        },
+                        markLine:{
+                            silent: true
+                        },
+                        silent: true
+                    },
+                    {
+                        value: 15,
+                        name:'有抵押',
+                        lable:{
+                            normal:{
+                                show: true,
+                                position: 'inside',
+                                formatter:'{b}: {d}',
+                                textStyle:{
+                                    color: '#fff',
+                                    fontSize: 12
+                                }
+                            },
+                            emphasis:{
+                                show: true,
+                                formatter:'{d}%'
+                            }
+                        }
+                    },
+                    {
+                        value: 20,
+                        name:'宝单保',
+                        lable:{
+                            normal:{
+                                show: true,
+                                position: 'inside',
+                                formatter:'{b}: {d}',
+                                textStyle:{
+                                    color: '#fff',
+                                    fontSize: 12
+                                }
+                            },
+                            emphasis:{
+                                show: true,
+                                formatter:'{d}%'
+                            }
+                        }
+                    },
+                    {
+                        value: 30,
+                        name:'万商贷',
+                        lable:{
+                            normal:{
+                                show: true,
+                                position: 'inside',
+                                formatter:'{b}: {d}',
+                                textStyle:{
+                                    color: '#fff',
+                                    fontSize: 12
+                                }
+                            },
+                            emphasis:{
+                                show: true,
+                                formatter:'{d}%'
+                            }
+                        }
+                    },
+                    {
+                        value: 15,
+                        name:'O2O',
+                        lable:{
+                            normal:{
+                                show: true,
+                                position: 'inside',
+                                formatter:'{b}: {d}',
+                                textStyle:{
+                                    color: '#fff',
+                                    fontSize: 12
+                                }
+                            },
+                            emphasis:{
+                                show: true,
+                                formatter:'{d}%'
+                            }
+                        }
+                    },
+                    {
+                        value: 10,
+                        name:'直销',
+                        lable:{
+                            normal:{
+                                show: true,
+                                position: 'inside',
+                                formatter:'{b}: {d}',
+                                textStyle:{
+                                    color: '#fff',
+                                    fontSize: 12
+                                }
+                            },
+                            emphasis:{
+                                show: true,
+                                formatter:'{d}%'
+                            }
+                        }
+                    }
+                ]
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+</script>
+
+</body>
+</html>
