@@ -3,7 +3,7 @@
  */
 
 define([
-    "zepto",
+    "jQuery",
     "echarts"
 ], function($, echarts) {
     "use strict";
@@ -11,10 +11,10 @@ define([
     var pieFun = {
         piefun: function(elem,options) {
             var targetElem;
-            if (elem && elem.lenght > 0) {
-                targetElem = elem[0];
-            } else {
+            if(elem instanceof HTMLElement){
                 targetElem = elem;
+            } else {
+                targetElem =  elem[0];
             }
             var settings = $.extend({
                 title: {
