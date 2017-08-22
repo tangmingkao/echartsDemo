@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+<<<<<<< HEAD
     <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta content="telephone=no" name="format-detection" />
     <title>Title</title>
     <script src = jquery-3.2.1.js></script>
     <script src="echarts.js"></script>
 </head>
 <body>
-<div id="tmk1" style="width: 300px;height: 600px"></div>
+<div id="tmk1" style="width: 300px;height: 450px"></div>
 <script>
     window.onload = function(){
         var myChart = echarts.init($("#tmk1")[0]);
@@ -18,21 +20,79 @@
             title: {
                 text: 'ECharts 入门示例'
             },
+            //全局调色盘
+            color:['#8B0000','#7FFF00', '#91c7ae','#ca8622','#0000EE','#bda29a','#6e7074', '#546570', '#c4ccd3'],
+			//图例组件。图例组件展现了不同系列的标记(symbol)，颜色和名字。可以通过点击图例控制哪些系列不显示。
             legend:{
                 show: true,
-                bottom: '5%',
+                type: 'scroll',
+                bottom: '2%',
                 orient: 'horizontal',
-                data:['无抵押','有抵押','宝单保','万商贷','O2O','直销']
+                data:[
+                		{
+                			name: '无抵押',
+                			icon: 'circle',
+                			textStyle:{
+                				color: 'black'
+                			},
+                		},
+                		{
+                			name: '有抵押',
+                			icon: 'circle',
+                			textStyle:{
+                				color: 'black'
+                			}
+                		},
+                		{
+                			name: '宝单保',
+                			icon: 'circle',
+                			textStyle:{
+                				color: 'black'
+                			}
+                		},
+                		{
+                			name: '万商贷',
+                			icon: 'circle',
+                			textStyle:{
+                				color: 'black'
+                			}
+                		},
+                		{
+                			name: 'O2O',
+                			icon: 'circle',
+                			textStyle:{
+                				color: 'black'
+                			}
+                		},
+                		{
+                			name: '直销',
+                			icon: 'circle',
+                			textStyle:{
+                				color: 'black'
+                			}
+                		}
+                ]
 
             },
             tooltip: {
                 show: true
             },
             series: [{
-                name: '业绩',``
+                //系列名称，用于tooltip的显示，legend 的图例筛选，在 setOption 更新数据和配置项时用于指定对应的系列。
+                name: '',
+
                 type: 'pie',
+                //饼图的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标。
                 center: ['50%','50%'],
+                //饼图的半径，数组的第一项是内半径，第二项是外半径。
                 radius:['20%','70%'],
+                //是否启用图例 hover 时的联动高亮。
+                legendHoverLink: true,
+                //是否开启 hover 在扇区上的放大动画效果。
+                hoverAnimation: true,
+                //饼图图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等，label选项在 ECharts 2.x 中
+                //放置于itemStyle.normal下，在 ECharts 3 中为了让整个配置项结构更扁平合理，label 被拿出来跟 
+                //itemStyle 平级，并且跟 itemStyle 一样拥有 normal, emphasis 两个状态。
                 label:{
                     normal: {
                         show: true,
@@ -41,13 +101,11 @@
                     }
 
                 },
-                textStyle:{
-                    fontStyle: 'oblique',
-                    fontSize: '30'
-                },
+
                 itemStyle:{
                     normal:{}
                 },
+                //系列中的数据内容数组。
                 data: [
                     {
                         value: 10,
@@ -55,22 +113,17 @@
                         lable:{
                             normal:{
                                 show: true,
-                                position: 'inner',
-                                formatter:'{d}',
                                 textStyle:{
                                     color: '#fff',
                                     fontSize: 12
                                 }
                             },
-                            emphasis:{
-                                show: true,
-                                formatter:'{a} {d}%'
-                            }
                         },
                         lableLine:{
                             normal: true
-
                         },
+                        //图形样式，有 normal 和 emphasis 两个状态。normal 是图形在默认状态下的样式；
+                        //emphasis 是图形在高亮状态下的样式，比如在鼠标悬浮或者图例联动高亮时。
                         itemStyle:{
                             normal:{
                                 color: '#8B008B'
@@ -78,7 +131,14 @@
                         },
                         tooltip:{
                             position: 'inside'
+                        	//normal 是图形在默认状态下的样式；
+//	                        	normal:{
+//	                        		 color: 'rgb(128, 128, 128)'
+//	                        	}
                         },
+//                      tooltip:{
+//                          position: 'inside'
+//                      },
                         markLine:{
                             silent: true
                         },
