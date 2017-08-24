@@ -3,7 +3,7 @@
  */
 
 define([
-    "zepto",
+    "Zepto",
     "echarts"
 ], function($,echarts) {
     "use strict";
@@ -129,25 +129,6 @@ define([
                             }
                         },
                         {
-                            value: 20,
-                            name: '宝单保',
-                            lable: {
-                                normal: {
-                                    show: true,
-                                    position: 'inside',
-                                    formatter: '{b}: {d}',
-                                    textStyle: {
-                                        color: '#fff',
-                                        fontSize: 12
-                                    }
-                                },
-                                emphasis: {
-                                    show: true,
-                                    formatter: '{d}%'
-                                }
-                            }
-                        },
-                        {
                             value: 15,
                             name: 'O2O',
                             lable: {
@@ -183,13 +164,13 @@ define([
             * 9.position,数据类型:Object,图例列表的位置.{top:'3%',left:'4%',bottom:'2%',right:'3%'}
             *
             */
-            if(options.color && options.color instanceof Array){
+            if(options && options.hasOwnProperty('color') && options.color instanceof Array){
                 settings.color = options.color;
             }
-            if(options.pieData && typeof options.pieData == 'string'){
+            if(options && options.hasOwnProperty('pieData') && typeof options.pieData == 'string'){
                 settings.series[0].label.normal.formatter = options.pieData;
             }
-            if(options.pieRadius && options.pieRadius instanceof Array){
+            if(options && options.hasOwnProperty('pieRadius') && options.pieRadius instanceof Array){
                 if(options.pieRadius.length > 1){
                    for (var i = 0 ; i < options.pieRadius.length; i++){
                        settings.series[0].radius[i] =   options.pieRadius[i];
@@ -200,18 +181,18 @@ define([
                 }
 
             }
-            if(options.pieCenter && options.pieCenter instanceof Array){
+            if(options && options.hasOwnProperty('pieCenter') && options.pieCenter instanceof Array){
                 for (var j = 0 ; j < options.pieCenter.length; j++){
                     settings.series[0].center[j] =   options.pieCenter[j];
                 }
             }
-            if(options.legendHoverLink && typeof options.legendHoverLink == 'Boolean'){
+            if(options && options.hasOwnProperty('legendHoverLink') && typeof options.legendHoverLink == 'Boolean'){
                 settings.series[0].legendHoverLink = options.legendHoverLink;
             }
-            if(options.hoverAnimation && typeof options.hoverAnimation == 'Boolean'){
+            if(options && options.hasOwnProperty('hoverAnimation') && typeof options.hoverAnimation == 'Boolean'){
                 settings.series[0].hoverAnimation = options.hoverAnimation;
             }
-            if(options.data && options.data instanceof Array){
+            if(options && options.hasOwnProperty('data') && options.data instanceof Array){
                 settings.legend.data = [];
                 settings.series[0].data = [];
                 for(var k = 0;k < options.data.length;k++){
@@ -250,10 +231,10 @@ define([
                     };
                 }
             }
-            if(options.orient && (options.orient == 'horizontal' || options.orient == 'vertical')){
+            if(options && options.hasOwnProperty('orient') && (options.orient == 'horizontal' || options.orient == 'vertical')){
                 settings.legend.orient = options.orient;
             }
-            if(options.position && options.position instanceof Object){
+            if(options && options.hasOwnProperty('position') && options.position instanceof Object){
                 var arr = Object.keys(options.position);
                 arr.forEach(function(element) {
                     if(!element){
