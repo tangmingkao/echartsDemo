@@ -48,33 +48,12 @@ define([
                             }
                         },
                         {
-                            name: '宝单保',
-                            icon: 'circle',
-                            textStyle: {
-                                color: 'black'
-                            }
-                        },
-                        {
-                            name: '万商贷',
-                            icon: 'circle',
-                            textStyle: {
-                                color: 'black'
-                            }
-                        },
-                        {
                             name: 'O2O',
                             icon: 'circle',
                             textStyle: {
                                 color: 'black'
                             }
                         },
-                        {
-                            name: '直销',
-                            icon: 'circle',
-                            textStyle: {
-                                color: 'black'
-                            }
-                        }
                     ]
 
                 },
@@ -200,8 +179,8 @@ define([
             * 5.legenHoverLink,数据类型:Boolean,是否启用图例 hover 时的联动高亮。
             * 6.hoverAnimation,数据类型:Boolean,是否开启 hover 在扇区上的放大动画效果。
             * 7.data,数据类型:[],每一项数据类型是json对象.例如{name:'无抵押',value: 30}.含义图例名车和值.
-            *
-            *
+            * 8.orient,数据类型:string,图例列表的布局朝向。可选:横向:'horizontal',纵向:'vertical'.
+            * 9.position,数据类型:Object,图例列表的位置.{top:'3%',left:'4%',bottom:'2%',right:'3%'}
             *
             */
             if(options.color && options.color instanceof Array){
@@ -270,6 +249,29 @@ define([
                         silent: true
                     };
                 }
+            }
+            if(options.orient && (options.orient == 'horizontal' || options.orient == 'vertical')){
+                settings.legend.orient = options.orient;
+            }
+            if(options.position && options.position instanceof Object){
+                var arr = Object.keys(options.position);
+                arr.forEach(function(element) {
+                    if(!element){
+                        return false;
+                    }
+                    if(element == 'top' ){
+                        $.extend(settings.legend,{top: options.position.top});
+                    }
+                    if(element == 'left'){
+                        $.extend(settings.legend,{left: options.position.left});
+                    }
+                    if(element == 'bottom'){
+                        $.extend(settings.legend,{bottom: options.position.bottom});
+                    }
+                    if(element == 'right'){
+                        $.extend(settings.legend,{right: options.position.right});
+                    }
+                });
             }
 
 
