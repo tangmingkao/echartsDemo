@@ -1,20 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-    <meta content="telephone=no" name="format-detection" />
-    <title>Title</title>
-    <script data-mian="main" src="require.js"></script>
-</head>
-<body>
-<div id="tmk1" style="width: 300px;height: 450px"></div>
-<script>
-    require(['pieFun'], function (pieFun) {
-        pieFun.piefun($("#tmk1")[0]);
-    });
-</script>
 
-</body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+		<meta content="telephone=no" name="format-detection" />
+		<title>Title</title>
+		<script data-mian="main" src="require.js"></script>
+	</head>
+
+	<body>
+		<div id="tmk1" style="width: 300px;height: 450px"></div>
+		<script>
+			require(['pieFun'], function(pieFun) {
+				pieFun.piefun($("#tmk1")[0], {
+					pieData: '{d}%',
+					color: ['#e58a1f', '#983ac3', '#d31c85', '#5848a7', '#26a576'],
+					pieRadius: ['20%', '60%'],
+					orient: 'horizontal',
+					position: {
+						top: '3%'
+					},
+					pieCenter: ['50%', '38%'],
+					data: [{
+						name: '无抵押',
+						value: 30
+					}, {
+						name: '有抵押',
+						value: 45
+					}, {
+						name: 'O2O',
+						value: 25
+					}]
+				});
+			});
+		</script>
+
+	</body>
+
 </html>

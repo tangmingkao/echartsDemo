@@ -12,7 +12,7 @@ require.config({
     //define each js frame path, not need to add .js suffix name
     //定义各个JS框架路径名,不用加后缀 .js
     paths:{
-        "Zepto":"zepto",
+        "zepto":"zepto",
         "echarts":"echarts",
         "pieFun": "pieFun"
     },

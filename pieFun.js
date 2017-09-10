@@ -3,11 +3,11 @@
  */
 
 define([
-    "Zepto",
+    "zepto",
     "echarts"
 ], function($,echarts) {
     "use strict";
-    //
+
     var pieFun = {
         piefun: function(elem,options) {
             var targetElem;
@@ -34,31 +34,37 @@ define([
                     orient: 'horizontal',
                     data: [
                         {
-                            name: '无抵押',
+                            name: '用例一',
                             icon: 'circle',
                             textStyle: {
                                 color: 'black'
                             }
                         },
                         {
-                            name: '有抵押',
+                            name: '用例二',
                             icon: 'circle',
                             textStyle: {
                                 color: 'black'
                             }
                         },
                         {
-                            name: 'O2O',
+                            name: '用例三',
                             icon: 'circle',
                             textStyle: {
                                 color: 'black'
                             }
-                        },
+                        }
                     ]
 
                 },
                 tooltip: {
-                    show: true
+                    show: true,
+                    position: function (pos, params, dom, rect, size) {
+                        // 鼠标在左侧时 tooltip 显示到右侧，鼠标在右侧时 tooltip 显示到左侧。
+                        var obj = {top: 60};
+                        obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5;
+                        return obj;
+                    }
                 },
                 series: [{
                     //系列名称，用于tooltip的显示，legend 的图例筛选，在 setOption 更新数据和配置项时用于指定对应的系列。
@@ -78,6 +84,7 @@ define([
                     label: {
                         normal: {
                             show: true,
+                            fontSize: 12,
                             position: 'inside',
                             formatter: '{d}%'
                         }
@@ -103,6 +110,11 @@ define([
                             //图形样式，有 normal 和 emphasis 两个状态。normal 是图形在默认状态下的样式；
                             //emphasis 是图形在高亮状态下的样式，比如在鼠标悬浮或者图例联动高亮时。
                             itemStyle: {
+                                normal: {
+                                    borderWidth: 0,
+                                    borderColor: '#fff',
+                                    borderType: 'solid'
+                                }
                             },
                             markLine: {
                                 silent: true
@@ -153,28 +165,42 @@ define([
             };
 
             /*配置参数的说明
-            * 1. color,数据类型:[],数组中每个颜色值为rgb或者16进制.含义:全局调色盘,默认顺序取色.
-            * 2.pieData,数据类型:string,数组中每个值为{a}、{b}、{c}、{d}%，分别表示系列名，数据名，数据值，百分比.饼图中展示的文字内容.
-            * 3.pieRadius,数据类型:[],数组的第一项是内半径，第二项是外半径,每个数据类型为string,例如'50%'。支持百分比,是相对于容器宽高较短的一边.含义:饼图的半径
-            * 4.pieCenter,数据类型:[],数组的第一项是x轴位置，第二项是Y轴位置.每个数据类型为string,例如['50%','50%']
-            * 5.legenHoverLink,数据类型:Boolean,是否启用图例 hover 时的联动高亮。
-            * 6.hoverAnimation,数据类型:Boolean,是否开启 hover 在扇区上的放大动画效果。
-            * 7.data,数据类型:[],每一项数据类型是json对象.例如{name:'无抵押',value: 30}.含义图例名车和值.
-            * 8.orient,数据类型:string,图例列表的布局朝向。可选:横向:'horizontal',纵向:'vertical'.
-            * 9.position,数据类型:Object,图例列表的位置.{top:'3%',left:'4%',bottom:'2%',right:'3%'}
-            *
-            */
+             * 1. color,数据类型:[],数组中每个颜色值为rgb或者16进制.含义:全局调色盘,默认顺序取色.
+             * 2.pieData,数据类型:string,数组中每个值为{a}、{b}、{c}、{d}%，分别表示系列名，数据名，数据值，百分比.饼图中展示的文字内容.
+             * 3.pieRadius,数据类型:[],数组的第一项是内半径，第二项是外半径,每个数据类型为string,例如'50%'。支持百分比,是相对于容器宽高较短的一边.含义:饼图的半径
+             * 4.pieCenter,数据类型:[],数组的第一项是x轴位置，第二项是Y轴位置.每个数据类型为string,例如['50%','50%']
+             * 5.legenHoverLink,数据类型:Boolean,是否启用图例 hover 时的联动高亮。
+             * 6.hoverAnimation,数据类型:Boolean,是否开启 hover 在扇区上的放大动画效果。
+             * 7.data,数据类型:[],每一项数据类型是json对象.例如{name:'无抵押',value: 30}.含义图例名和值.
+             * 8.orient,数据类型:string,图例列表的布局朝向。可选:横向:'horizontal',纵向:'vertical'.
+             * 9.position,数据类型:Object,图例列表的位置.{top:'3%',left:'4%',bottom:'2%',right:'3%'}
+             * 10.symbolTextStyle,数据类型:string,图例文字颜色.默认黑色.color: "black".
+             * 11.pieTextStyle,数据类型:string,饼图中文字颜色.默认白色. color: "#fff",这里不支持类似"black"颜色表示.
+             * 12. symbolWidth,数据类型:string,图例组合所占的宽度. 默认容器宽度的70%, symbolWidth = '70%'
+             * 13. symbolIcon,数据类型:string,图例组合的形状.默认圆形,'circle'.可选择配置:'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow'.
+             * 14. borderWidth,饼图的间隙.borderWidth: 5,该块饼图的boder值为5,数据类型都是number. 这个参数设置其实处理并不合理,是为了兼容草稿箱那个饼图做的兼容处理.
+             * 15. symbolShow,数据类型:Boolean,图例是否显示参数.
+             * 16. pieTextShow,数据类型:Boolean,饼图中是否显示文字.
+             *
+             */
             if(options && options.hasOwnProperty('color') && options.color instanceof Array){
                 settings.color = options.color;
             }
             if(options && options.hasOwnProperty('pieData') && typeof options.pieData == 'string'){
-                settings.series[0].label.normal.formatter = options.pieData;
+                if(options.pieData == '{d}%'){
+                    settings.series[0].label.normal.formatter = function(obj){
+                        //取进度为小数点后一位.
+                        return obj.percent.toFixed(0) + '%';
+                    };
+                } else {
+                    settings.series[0].label.normal.formatter = options.pieData;
+                }
             }
             if(options && options.hasOwnProperty('pieRadius') && options.pieRadius instanceof Array){
                 if(options.pieRadius.length > 1){
-                   for (var i = 0 ; i < options.pieRadius.length; i++){
-                       settings.series[0].radius[i] =   options.pieRadius[i];
-                   }
+                    for (var i = 0 ; i < options.pieRadius.length; i++){
+                        settings.series[0].radius[i] =   options.pieRadius[i];
+                    }
                 } else {
                     settings.series[0].radius[0] = '0%';
                     settings.series[0].radius[1] = options.pieRadius[0];
@@ -186,22 +212,46 @@ define([
                     settings.series[0].center[j] =   options.pieCenter[j];
                 }
             }
-            if(options && options.hasOwnProperty('legendHoverLink') && typeof options.legendHoverLink == 'Boolean'){
+            if(options && options.hasOwnProperty('legendHoverLink') && typeof options.legendHoverLink == 'boolean'){
                 settings.series[0].legendHoverLink = options.legendHoverLink;
             }
-            if(options && options.hasOwnProperty('hoverAnimation') && typeof options.hoverAnimation == 'Boolean'){
+            if(options && options.hasOwnProperty('hoverAnimation') && typeof options.hoverAnimation == 'boolean'){
                 settings.series[0].hoverAnimation = options.hoverAnimation;
             }
             if(options && options.hasOwnProperty('data') && options.data instanceof Array){
                 settings.legend.data = [];
                 settings.series[0].data = [];
+                var tempColor1,tempColor2,tempIcon,tempItemStyle;
+                //其实这种处理并不合理.因为这两个参数和dada参数是平行并列的.但是这里因为肯定不会缺省data参数,所以就这样处理了.
+                tempColor1 = options && options.hasOwnProperty('symbolTextStyle') && typeof options.symbolTextStyle == 'string' ? options.symbolTextStyle : 'black';
+                tempColor2 = options && options.hasOwnProperty('pieTextStyle') && typeof options.pieTextStyle == 'string' ? options.pieTextStyle : '#fff';
+                tempIcon = options && options.hasOwnProperty('symbolIcon') && typeof options.symbolIcon == 'string'  ? options.symbolIcon : 'circle';
+
+                if(options && options.hasOwnProperty('borderWidth') && typeof options.borderWidth == 'number'){
+                    tempItemStyle = {
+                        normal: {
+                            borderWidth: options.borderWidth,
+                            borderColor: '#fff',
+                            borderType: 'solid'
+                        }
+                    }
+                } else {
+                    tempItemStyle = {
+                        normal: {
+                            borderWidth: 0,
+                            borderColor: '#fff',
+                            borderType: 'solid'
+                        }
+                    }
+                }
+
                 for(var k = 0;k < options.data.length;k++){
                     //设置图例的名称
                     settings.legend.data[k] = {
                         name: options.data[k].name,
-                            icon: 'circle',
+                        icon: tempIcon,
                         textStyle: {
-                            color: 'black'
+                            color: tempColor1
                         }
                     };
                     //设置饼图的的参数
@@ -212,17 +262,14 @@ define([
                             normal: {
                                 show: true,
                                 textStyle: {
-                                    color: '#fff',
+                                    color: tempColor2,
                                     fontSize: 12
                                 }
                             }
                         },
+                        itemStyle: tempItemStyle,
                         lableLine: {
                             normal: true
-                        },
-                        //图形样式，有 normal 和 emphasis 两个状态。normal 是图形在默认状态下的样式；
-                        //emphasis 是图形在高亮状态下的样式，比如在鼠标悬浮或者图例联动高亮时。
-                        itemStyle: {
                         },
                         markLine: {
                             silent: true
@@ -234,8 +281,29 @@ define([
             if(options && options.hasOwnProperty('orient') && (options.orient == 'horizontal' || options.orient == 'vertical')){
                 settings.legend.orient = options.orient;
             }
+            if(options && options.hasOwnProperty('symbolWidth') && typeof options.symbolWidth == 'string' ){
+                settings.legend.width = options.symbolWidth;
+            }
+
+            if(options && options.hasOwnProperty('symbolShow') && typeof options.symbolShow == 'boolean'){
+                settings.legend.show = options.symbolShow;
+            }
+            if(options && options.hasOwnProperty('pieTextShow') && typeof options.pieTextShow == 'boolean'){
+                settings.series[0].label.normal.show = options.pieTextShow;
+            }
+
             if(options && options.hasOwnProperty('position') && options.position instanceof Object){
                 var arr = Object.keys(options.position);
+                if(arr.length > 0){
+                    //进行设置前先将设置默认的取消掉,不然设置可能会没有作用.
+                    //var tempObj = _.pick(settings.legend,['left','bottom','right','top']);
+                    var tempArr = Object.keys(settings.legend);
+                    for(var l = 0 ; l < tempArr.length; l++){
+                        if( ['left','bottom','right','top'].indexOf(tempArr[l]) > -1){
+                            settings.legend[tempArr[l]] = '';
+                        }
+                    }
+                }
                 arr.forEach(function(element) {
                     if(!element){
                         return false;
@@ -254,7 +322,6 @@ define([
                     }
                 });
             }
-
 
             var myCharts = echarts.init(targetElem);
 
