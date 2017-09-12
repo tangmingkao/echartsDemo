@@ -59,6 +59,7 @@ define([
                 },
                 tooltip: {
                     show: true,
+                    formatter: '{b}:<br />{c}',
                     position: function (pos, params, dom, rect, size) {
                         // 鼠标在左侧时 tooltip 显示到右侧，鼠标在右侧时 tooltip 显示到左侧。
                         var obj = {top: 60};
@@ -190,7 +191,24 @@ define([
                 if(options.pieData == '{d}%'){
                     settings.series[0].label.normal.formatter = function(obj){
                         //取进度为小数点后一位.
-                        return obj.percent.toFixed(0) + '%';
+                        var count = 0;
+                        for(var q = 0; q < obj.data.length;){
+                            if(obj.data[q] == 0){
+                                count++;
+                                cosole.log(count);
+                                cosole.log(obj.data[q]);
+                            }
+                        }
+                        if(count == obj.data.length ){
+                            return obj.percent.toFixed(0) + '%';
+                        } else {
+                            if(obj.value == 0){
+                                return "";
+                            } else  {
+                                return obj.percent.toFixed(0) + '%';
+                            }
+                        }
+
                     };
                 } else {
                     settings.series[0].label.normal.formatter = options.pieData;
