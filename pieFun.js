@@ -191,24 +191,11 @@ define([
                 if(options.pieData == '{d}%'){
                     settings.series[0].label.normal.formatter = function(obj){
                         //取进度为小数点后一位.
-                        var count = 0;
-                        for(var q = 0; q < obj.data.length;){
-                            if(obj.data[q] == 0){
-                                count++;
-                                cosole.log(count);
-                                cosole.log(obj.data[q]);
-                            }
-                        }
-                        if(count == obj.data.length ){
+                        if(obj.value == 0){
+                            return "";
+                        } else  {
                             return obj.percent.toFixed(0) + '%';
-                        } else {
-                            if(obj.value == 0){
-                                return "";
-                            } else  {
-                                return obj.percent.toFixed(0) + '%';
-                            }
                         }
-
                     };
                 } else {
                     settings.series[0].label.normal.formatter = options.pieData;
