@@ -93,13 +93,20 @@
                 //放置于itemStyle.normal下，在 ECharts 3 中为了让整个配置项结构更扁平合理，label 被拿出来跟 
                 //itemStyle 平级，并且跟 itemStyle 一样拥有 normal, emphasis 两个状态。
                
-//             label:{
-//                  normal: {
-//                      show: true,
-//                      position: 'inside',
-//                      formatter: '{d}%'
-//                  }
-//              },
+               label:{
+                    normal: {
+                        show: true,
+                        position: 'outside',
+                        formatter: '{d}%'
+                    }
+                },
+                labelLine: {
+                        normal: {
+                            show: true,
+                            length: 5,
+                            length2: 5
+                        }
+               },
 
                 itemStyle:{
                     normal:{}

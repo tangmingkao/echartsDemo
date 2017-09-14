@@ -71,8 +71,10 @@ define([
                     //系列名称，用于tooltip的显示，legend 的图例筛选，在 setOption 更新数据和配置项时用于指定对应的系列。
                     name: '业绩',
                     type: 'pie',
+                    minAngle: 0,
+                    stillShowZeroSum: true,
                     //饼图的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标。
-                    center: ['50%', '45%'],
+                    center: ['50%','45%'],
                     //饼图的半径，数组的第一项是内半径，第二项是外半径。
                     radius: ['20%', '70%'],
                     //是否启用图例 hover 时的联动高亮。
@@ -91,6 +93,17 @@ define([
                         }
 
                     },
+                    lableLine: {
+                        normal: {
+                            show: false,
+                            length: 0,
+                            length2: 0
+                        }
+                    },
+                    itemStyle: {
+                                normal: {                                
+                                }
+                            },
                     //系列中的数据内容数组。
                     data: [
                         {
@@ -164,7 +177,11 @@ define([
                     ]
                 }]
             };
-
+			//设置是否数据全部为0的表示.
+			var noDataFlag = false;
+			//设置是否只有一个数据有数据.
+			var oneDataFlag = false;
+			
             /*配置参数的说明
              * 1. color,数据类型:[],数组中每个颜色值为rgb或者16进制.含义:全局调色盘,默认顺序取色.
              * 2.pieData,数据类型:string,数组中每个值为{a}、{b}、{c}、{d}%，分别表示系列名，数据名，数据值，百分比.饼图中展示的文字内容.
@@ -227,19 +244,43 @@ define([
                 settings.legend.data = [];
                 settings.series[0].data = [];
                 var tempColor1,tempColor2,tempIcon,tempItemStyle;
+                //计算配置全局变量noDataFlag的值.
+                var count = 0;
+                for(var q = 0; q < options.data.length; q++){
+                    if(options.data[q].value == 0){
+                    		count++;
+                    }
+                }
+                if(count == options.data.length){
+                		noDataFlag = true;
+                }
+                if(count == options.data.length - 1){
+                		oneDataFlag = true;
+                }
                 //其实这种处理并不合理.因为这两个参数和dada参数是平行并列的.但是这里因为肯定不会缺省data参数,所以就这样处理了.
                 tempColor1 = options && options.hasOwnProperty('symbolTextStyle') && typeof options.symbolTextStyle == 'string' ? options.symbolTextStyle : 'black';
                 tempColor2 = options && options.hasOwnProperty('pieTextStyle') && typeof options.pieTextStyle == 'string' ? options.pieTextStyle : '#fff';
                 tempIcon = options && options.hasOwnProperty('symbolIcon') && typeof options.symbolIcon == 'string'  ? options.symbolIcon : 'circle';
 
                 if(options && options.hasOwnProperty('borderWidth') && typeof options.borderWidth == 'number'){
-                    tempItemStyle = {
-                        normal: {
-                            borderWidth: options.borderWidth,
-                            borderColor: '#fff',
-                            borderType: 'solid'
-                        }
-                    }
+	                   if(noDataFlag || oneDataFlag){
+	                   		tempItemStyle = {
+		                        normal: {
+		                            borderWidth: 0,
+		                            borderColor: '#fff',
+		                            borderType: 'solid'
+		                        }
+	                   		};
+	                   } else {
+	                   		tempItemStyle = {
+		                        normal: {
+		                            borderWidth: options.borderWidth,
+		                            borderColor: '#fff',
+		                            borderType: 'solid'
+		                        }
+		                    };
+	                   }
+                    
                 } else {
                     tempItemStyle = {
                         normal: {
@@ -327,9 +368,11 @@ define([
                     }
                 });
             }
-
+//          if(noDataFlag){
+//          		$.extend(settings.series[0].itemStyle.normal,{color: ['#7A7A7A']});
+//          }
+            
             var myCharts = echarts.init(targetElem);
-
             // 使用刚指定的配置项和数据显示图表。
             myCharts.setOption(settings);
         },
